@@ -1,34 +1,31 @@
 float x,y,z;
+Meteors meteors;
+Spaceship spaceship;
 
-int movementSpeed = 8;
-
-int rectWidth;
 void setup() {
   size(1024,600,P3D);
-  background(0);
-  x = width/2;
-  y = height/2;
-  z = 100;
+  background(255);
+  meteors = new Meteors();
+  spaceship = new Spaceship();
 }
 
 void draw() {
   clear();
   if (key == CODED) {
     if (keyCode == LEFT) {
-      x -= movementSpeed;
+      spaceship.moveLeft();
     }
     else if (keyCode == RIGHT) {
-      x += movementSpeed;    
+      spaceship.moveRight();
     }
     else if (keyCode == UP) {
-      y -= movementSpeed;
+      spaceship.moveUp();
     }
     else if (keyCode == DOWN) {
-      y += movementSpeed;
+      spaceship.moveDown();
     }
   }
-  translate(x,y,z);
-  box(100);
+  spaceship.drawSpaceship();
 }
 
 void keyReleased() {
