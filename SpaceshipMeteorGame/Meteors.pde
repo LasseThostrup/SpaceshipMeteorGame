@@ -1,16 +1,32 @@
-//Class that keeps track of all the meteors, generate new and remove when they go out of bound
-//Maybe have a thread that runs an generate new meteors
-
-//Idea to methods
-  //Constructor - Instantiate collection of meteors
-  //newMeteor() - private? - Create a random placed new meteor at a specific depth
-  //draw() - this method should be called by the SpaceshipMeteorGame's Draw() routine. Every time this method is called it should move the meteors closer to the spaceship.
-  
+import java.util.Random;
+import java.util.Iterator;
 
 class Meteors {
-  int speed = 10; //Movement speed of meteors (z += speed) each time draw is called
-  ArrayList meteors;
+  int speed = 10; //Movement speed of meteors (z += spmeteorsch time draw is called
+  public ArrayList<Meteor> meteors;
+  Random random;
+  Boolean gameOver = false;
   
+  Meteors() {
+    meteors = new ArrayList<Meteor>();
+    random = new Random();
+  }
 
-
+  void drawMeteors() {
+    for (Iterator<Meteor> iterator = meteors.iterator(); iterator.hasNext();) {
+      Meteor meteor = iterator.next();
+      if (meteor.z > 450) {
+          // Remove the meteor because it hit max z
+          iterator.remove();
+      }
+      meteor.drawMeteor();
+    }
+  }  
+  
+  void newMeteor() {
+    float x = random.nextFloat()*width/4+width/2-width/8;
+    float y = random.nextFloat()*height/4+height/2-height/8;
+    meteors.add(new Meteor(x, y));
+  } //<>//
 }
+  

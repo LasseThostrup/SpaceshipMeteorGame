@@ -1,12 +1,12 @@
 
 class Spaceship{
-  float x, y, z;
-  int speed = 10; //Speed with which the Spaceship moves with
+  public float x, y, z;
+  int speed = 2; //Speed with which the Spaceship moves with
   
   Spaceship(){
     x = width/2;
     y = height/2;
-    z = 50;
+    z = 450;
   }
   
   void moveLeft() { 
@@ -25,9 +25,28 @@ class Spaceship{
     if (y + speed < height)  
       y += speed; 
   }
+  
   void drawSpaceship() {  
+    if (key == CODED) {
+      if (keyCode == LEFT) {
+        moveLeft();
+      }
+      else if (keyCode == RIGHT) {
+        moveRight();
+      }
+      else if (keyCode == UP) {
+        moveUp();
+      }
+      else if (keyCode == DOWN) {
+        moveDown();
+      }
+    }
+
+    pushMatrix();
     translate(x,y,z);
-    box(100);
+    fill(150);
+    box(10);
+    popMatrix();
   }
 
 }
