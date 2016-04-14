@@ -1,14 +1,19 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
 Meteors meteors;
 Spaceship spaceship;
-Boolean gameOver = false;
-int hitbox = 5;
+boolean gameOver = false;
+boolean levelActive = false;
+int hitbox = 20;
+int level = 1;
 
 void setup() {
   size(1024,600,P3D);
   background(255);
   frameRate(50);
   meteors = new Meteors();
-  spaceship = new Spaceship();
+  spaceship = new Spaceship(width/2, height/2);
 }
 
 void draw() {
@@ -20,25 +25,41 @@ void draw() {
     text("GAME OVER", 10, 30);
   }
   else {
-    meteorSpaceshipCollision();
-    clear();
     
-    if (key == 'm') {
-      meteors.newMeteor();
+    if (levelActive) {
+      //Current level is active
+      meteorSpaceshipCollision();
+      clear();
+      
+      if (key == 'm') {
+        meteors.newMeteor();
+      }
+      
+      spaceship.drawSpaceship();
+      
+      meteors.drawMeteors();
+      
+      //Insert some detection when level is done
+        //Increment level variable
+      
+      
     }
-    
-    spaceship.drawSpaceship();
-    
-    meteors.drawMeteors();
+    else {
+       //Count down to next level
+       
+       
+       levelActive = true;
+    }
   }
-}
-
-void keyReleased() {
-  keyCode = 0;
 }
 
 void meteorSpaceshipCollision() {
   for (Meteor meteor : meteors.meteors) {
-    if (meteor.z > 400 && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) gameOver = true;
+    if (meteor.z > 450-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) gameOver = true;
   }
+}
+
+void newLevel() {
+  
+
 }

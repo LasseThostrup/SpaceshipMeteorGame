@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Iterator;
 
 class Meteors {
-  int speed = 10; //Movement speed of meteors (z += spmeteorsch time draw is called
+  int speed = 10; //Movement speed of meteors
   public ArrayList<Meteor> meteors;
   Random random;
   Boolean gameOver = false;
