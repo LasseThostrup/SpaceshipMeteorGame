@@ -64,7 +64,7 @@ class Spaceship {
   
    if(key_pressed==true){ 
    if (left) { //LEFT
-        if(x>450){
+        if(x>610){
           x -= movementSpeed;
           if(xAngle<26)
             xAngle+=6;
@@ -76,7 +76,7 @@ class Spaceship {
       }
       
       if (right) {  //RIGHT
-        if(x<width-450){
+        if(x<width-610){
             x += movementSpeed;
              if(xAngle>-26)
                 xAngle-=6;
@@ -88,7 +88,7 @@ class Spaceship {
        }
        
        if (up) {  //UP
-         if(y>280){
+         if(y>380){
             y -= movementSpeed;
             if(yAngle>-20)
               yAngle-=6;
@@ -101,7 +101,7 @@ class Spaceship {
         }
         
        if (down) {  //DOWN
-         if(y<height-280){
+         if(y<height-380){
             y += movementSpeed;
             if(yAngle<20)
               yAngle+=6;

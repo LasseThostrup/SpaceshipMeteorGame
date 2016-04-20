@@ -13,8 +13,9 @@ String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "dee
 PImage background;
 
 void setup() {
-  size(1440, 900, P3D);
-  frameRate(50);
+  //size(1440, 900, P3D);
+  fullScreen(P3D);
+  frameRate(100);
   meteors = new Meteors();
   spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
   
@@ -101,5 +102,5 @@ void newLevel() {
   spaceship.x = width/2;
   spaceship.y = height/2;
   
-  background = loadImage(backgrounds[level%4]);
+  background = loadImage(backgrounds[level%3]);
 }
