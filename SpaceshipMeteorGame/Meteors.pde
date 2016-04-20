@@ -13,17 +13,17 @@ class Meteors {
   }
 
   void drawMeteors() {
-    Boolean hasDeletedAMeteor = false;
+    int hasDeletedAMeteor = 0;
     for (Iterator<Meteor> iterator = meteors.iterator(); iterator.hasNext();) {
       Meteor meteor = iterator.next();
       if (meteor.z > 680) {
           // Remove the meteor because it hit max z
           iterator.remove();
-          hasDeletedAMeteor = true;
+          hasDeletedAMeteor++;
       }
       meteor.drawMeteor(speed);
     }
-    if (hasDeletedAMeteor) {
+    for (int i = 0; i < hasDeletedAMeteor; i++) {
       //Spawn a new meteor
       newMeteor();
     }
@@ -33,7 +33,7 @@ class Meteors {
     float x = random.nextFloat()*width/4+width/2-width/8;
     float y = random.nextFloat()*height/4+height/2-height/8;
     float z = random.nextFloat()*250; //Values between 0 and 250
-    meteors.add(new Meteor(x, y, z));
+    meteors.add(new Meteor(x, y, z-100));
   } //<>// //<>//
   
   void clearMeteors() {

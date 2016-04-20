@@ -102,5 +102,6 @@ void newLevel() {
   spaceship.x = width/2;
   spaceship.y = height/2;
   
-  background = loadImage(backgrounds[level%3]);
+  background = loadImage(backgrounds[(level-1)%3]);
+
 }
