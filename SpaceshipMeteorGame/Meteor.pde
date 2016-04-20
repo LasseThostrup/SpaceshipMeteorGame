@@ -19,26 +19,26 @@ class Meteor {
   float[] coorZ;
   float[] multXZ;
   
-  Meteor(float x, float y) {
+  Meteor(float x, float y, float z) {
   
-    //img=loadImage("meteorTexture.jpg");
-    ptsW=30;
-    ptsH=30;
+    img=loadImage("meteorTexture.jpg");
+    ptsW=15;
+    ptsH=15;
     // Parameters below are the number of vertices around the width and height
-    //initializeSphere(ptsW, ptsH);
+    initializeSphere(ptsW, ptsH);
     this.x = x;
     this.y = y;
-    z = 0;
+    this.z = z;
   }
   
-  void drawMeteor() { 
+  void drawMeteor(float speed) { 
     pushMatrix();
-    z++;
+    z += speed;
     translate(x, y, z);
-    //textureSphere(10, 10, 10, img);
-    fill(204, 102, 0);
-    sphereDetail(10);
-    sphere(10);
+    textureSphere(10, 10, 10, img);
+    //fill(204, 102, 0);
+    //sphereDetail(10);
+    //sphere(10);
     popMatrix();
   }
   
@@ -95,6 +95,7 @@ class Meteor {
       float multxz=multXZ[i];
       float multxzPlus=multXZ[i+1];
   
+      stroke(50, 50);
       for (int j=0; j<numPointsW; j++) { // For all the pts in the ring
         normal(-coorX[j]*multxz, -coory, -coorZ[j]*multxz);
         vertex(coorX[j]*multxz*rx, coory*ry, coorZ[j]*multxz*rz, u, v);
@@ -104,6 +105,7 @@ class Meteor {
       }
       v+=changeV;
       u=0;
+      
     }
     endShape();
   }
