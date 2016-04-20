@@ -1,26 +1,38 @@
+
 //tried to use an array for this but it would not work 
 boolean up=false;
 boolean down=false;
 boolean right =false;
 boolean left=false; 
+boolean zdown=false;
+boolean zup=false;
+boolean Right=false;
+boolean Left=false;
+boolean Up=false;
+boolean Down=false;
+boolean test=false;
 boolean barrelRoll=false;
 boolean key_pressed=false;
 
-class Spaceship{
-  
-  int speed = 2; //Speed with which the Spaceship moves with
-  float x, y, z = 450;
-  float movementSpeed = 2, rotateSpeed = 1;
+
+class Spaceship { 
+  float x, y, z, movementSpeed, rotateSpeed;
   float xAngle=0;
   float yAngle=0;
   float zAngle=0;
-  float scaling = 0.1;
+  float theta=0;
+  float r=0, d=0;
+  float l=0, u=0;
+  
  
 
   
   Spaceship(){
+    movementSpeed=8;
+    rotateSpeed=1;
     x=width/2;
     y=height/2;
+    z=100;
   }
   Spaceship(float x1, float y1, float z1, float movementSpeed1, float rotateSpeed1){
     x=x1;
@@ -32,156 +44,349 @@ class Spaceship{
   Spaceship(float x1, float y1){
     x=x1;
     y=y1;
+    z=100;
+    movementSpeed=10;
+    rotateSpeed=1;
   }
   
-  void moveLeft() { 
-    if (x - speed > 0) 
-      x -= speed; 
+  float getX(){
+    return x;
   }
-  void moveRight() {     
-    if (x + speed < width) 
-      x += speed; 
+  float getY(){
+    return y;
   }
-  void moveUp() { 
-    if (y - speed > 0)
-      y -= speed; 
-  }
-  void moveDown() { 
-    if (y + speed < height)  
-      y += speed; 
-  }
-  
 
   void drawSpaceship() { 
     //println("x: ", x, " y: ", y, " moveSpeed: ", movementSpeed, " rotateSpeed: ", rotateSpeed);
+     //DO A BARREL ROLL 
     if(up==true | down==true | right==true | left==true)
         key_pressed=true;
   
-    if(key_pressed){
-      if (left) { //LEFT
-        if(x>150){
+   if(key_pressed==true){ 
+   if (left) { //LEFT
+        if(x>450){
           x -= movementSpeed;
           if(xAngle<26)
-            xAngle+=4;
+            xAngle+=6;
         }
       }
       else if(left==false){
           if(xAngle>0)
-            xAngle-=2;
+            xAngle-=3;
       }
       
       if (right) {  //RIGHT
-        if(x<width-150){
+        if(x<width-450){
             x += movementSpeed;
              if(xAngle>-26)
-                xAngle-=4;
+                xAngle-=6;
           }
       }
        else if(right==false){
            if(xAngle<0)
-             xAngle+=2;
+             xAngle+=3;
        }
        
        if (up) {  //UP
-         if(y>100){
+         if(y>280){
             y -= movementSpeed;
             if(yAngle>-20)
-              yAngle-=4;
+              yAngle-=6;
             
           }
         }
         else if(!up){
            if(yAngle<0)
-              yAngle+=2;
+              yAngle+=3;
         }
         
        if (down) {  //DOWN
-         if(y<height-100){
+         if(y<height-280){
             y += movementSpeed;
             if(yAngle<20)
-              yAngle+=4;
+              yAngle+=6;
            
           }
         }
         else if(!down){
           if(yAngle>0)
-            yAngle-=2;
+            yAngle-=3;
         }  
     }
     else{
       if(xAngle>0)  //was pointing left, bringing it back to pointing normal
-          xAngle-=2;
+          xAngle-=4;
       if(xAngle<0)  //was pointing right, bringing it back to pointing normal
-          xAngle+=2;
+          xAngle+=4;
       if(yAngle>0)  //was pointing down, bringing it back to pointing normal
-          yAngle-=2;
+          yAngle-=4;
       if(yAngle<0)  //was pointing up, bringing it back to pointing normal
-          yAngle+=2;
+          yAngle+=4;
+      //zAngle=0;
+      
     }
     
+      
+    if(barrelRoll==true){
+        if(zAngle<360)
+          zAngle+=30;
+        else{
+          zAngle=0;
+          barrelRoll=false;
+        }
+     }  
+        /*
+        if(zdown){
+          zAngle+=2;
+        }
+        if(zup){
+          zAngle-=2;
+        }
+        */
+        if(Right)
+          xAngle+=rotateSpeed;
+         if(Left)
+           xAngle-=rotateSpeed;
+         if(Up)
+           yAngle-=rotateSpeed;
+          if(Down)
+            yAngle+=rotateSpeed;
+       
+    
+    
+    drawShip(x, y, z, xAngle, yAngle, zAngle);
 
-   //DO A BARREL ROLL 
-     if(barrelRoll==true){
-          if(zAngle<360)
-            zAngle+=30;
-          else if(zAngle>30){
-            zAngle=0;
-            barrelRoll=false;
-          }
-     }
-  
+  } 
+   
+   void drawShip(float x, float y, float z, float xAngle, float yAngle, float zAngle){
     pushMatrix();
     translate(x, y, z);
     rotateZ(radians(zAngle));
     rotateY(radians(xAngle));
     rotateX(radians(yAngle));
-    /*
-     beginShape(TRIANGLES);
-    fill(200, 200, 255);
-    vertex(50, 50, 50);
-    vertex(-50, 50, 50);
-    vertex(0, 0, 0);
-    
-    fill(255, 200, 200);
-    vertex(-50, -50, 50);
-    vertex(-50, +50, 50);
-    vertex(0, 0, 0);
-    
-    fill(200, 255, 200);
-    vertex(-50, -50, 50);
-    vertex(+50, -50, 50);
-    vertex(0, 0, 0);
-    
-    fill(200, 55, 200);
-    vertex(+50, +50, 50);
-    vertex(+50, -50, 50);
-    vertex(0, 0, 0);
-    endShape(); 
-    */
-    
-    pushMatrix();
-    fill(50,60, 170);
-    //noFill();
-    box(100*scaling);
-    //box(50, 50, 200);
-    popMatrix();
   
+  
+    float scale=.12;
+    ////////////////////////////DRAWING THE SHIP\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+   fill(204);
+    //NOSE OF SHIP
+    beginShape(TRIANGLES);
+    //fill(200, 200, 255);    //BLUE
+    vertex(scale*-40, scale*-20, scale*00);
+    vertex(scale*40, scale*-20, scale*00);
+    vertex(scale*0, scale*0, scale*-150);
     
+    //fill(255, 200, 200);    //PINK
+    vertex(scale*40,scale* -20, scale*00);
+    vertex(scale*40, scale*20, scale*00);
+    vertex(scale*0, scale*0, scale*-150);
+    
+    //fill(200, 255, 200);    //GREEN
+    vertex(scale*40, scale*20, scale*00);
+    vertex(scale*-40, scale*20, scale*00);
+    vertex(scale*0, scale*0, scale*-150);
+    
+    //fill(200, 55, 200);  //PURPLE
+    vertex(scale*-40, scale*20, scale*00);
+    vertex(scale*-40, scale*-20, scale*00);
+    vertex(scale*0, scale*0, scale*-150);
+    endShape(); 
+    
+    //BODY OF SHIP
+    beginShape(QUAD);
+    //fill(200, 200, 255);    //BLUE
+    vertex(scale*(-40), scale*(-20), scale*00);
+    vertex(scale*(40), scale*(-20), scale*00);
+    vertex(scale*(40), scale*(-20), scale*100);
+    vertex(scale*(-40), scale*(-20), scale*100);
+    
+    //fill(255, 200, 200);    //PINK
+    vertex(scale*40, scale*-20, scale*00);
+    vertex(scale*40, scale*20, scale*00);
+    vertex(scale*40, scale*20, scale*100);
+    vertex(scale*40, scale*-20, scale*100);
+    
+    //fill(200, 255, 200);    //GREEN
+    vertex(scale*40, scale*20, scale*00);
+    vertex(scale*-40, scale*20, scale*00);
+    vertex(scale*-40, scale*20, scale*100);
+    vertex(scale*40, scale*20, scale*100);
+    
+    //fill(200, 55, 200);  //PURPLE
+    vertex(scale*-40, scale*20, scale*00);
+    vertex(scale*-40, scale*-20, scale*00);
+    vertex(scale*-40, scale*-20, scale*100);
+    vertex(scale*-40, scale*20, scale*100);
+    endShape();
+    
+    //COCKPIT OF SHIP
+    beginShape(QUAD);
+    
+    //fill(150);
+    vertex(scale*-40, scale*-20, scale*100);
+    vertex(scale*40, scale*-20, scale*100);
+    vertex(scale*25, scale*-50, scale*100);
+    vertex(scale*-25, scale*-50, scale*100);
+    
+    //fill(150, 150);
+    vertex(scale*25, scale*-50, scale*100);
+    vertex(scale*-25, scale*-50, scale*100);
+    vertex(scale*-20, scale*-20, scale*0);
+    vertex(scale*20, scale*-20, scale*0);
+    
+    vertex(scale*25, scale*-50, scale*100);
+    vertex(scale*40, scale*-20, scale*100);
+    vertex(scale*40, scale*-20, scale*0);
+    vertex(scale*20, scale*-20, scale*0);
+    
+    vertex(scale*-25, scale*-50, scale*100);
+    vertex(scale*-40, scale*-20, scale*100);
+    vertex(scale*-40, scale*-20, scale*0);
+    vertex(scale*-20, scale*-20, scale*0);
+    
+    //BACK OF SHIP
+    //fill(150);
+    vertex(scale*-40, scale*-20, scale*100);
+    vertex(scale*40, scale*-20, scale*100);
+    vertex(scale*40, scale*20, scale*100);
+    vertex(scale*-40, scale*20, scale*100);
+    endShape();
+    
+    //RIGHT WING
+    beginShape(QUAD);
+    //fill(255);
+    vertex(scale*40, scale*0, scale*100);
+    vertex(scale*40, scale*20, scale*100);
+    vertex(scale*65, scale*20, scale*140);
+    vertex(scale*65, scale*10, scale*140);
+    
+    vertex(scale*40, scale*0, scale*100);
+    vertex(scale*100, scale*0, scale*100);
+    vertex(scale*125, scale*10, scale*140);
+    vertex(scale*65, scale*10, scale*140);
+    
+    vertex(scale*40, scale*20, scale*100);
+    vertex(scale*100, scale*20, scale*100);
+    vertex(scale*125, scale*20, scale*140);
+    vertex(scale*65, scale*20, scale*140);
+    endShape();
+    
+    beginShape(TRIANGLES);
+    vertex(scale*40, scale*0, scale*25);
+    vertex(scale*40, scale*0, scale*100);
+    vertex(scale*100, scale*0, scale*100);
+    
+    vertex(scale*40, scale*20, scale*25);
+    vertex(scale*40, scale*20, scale*100);
+    vertex(scale*100, scale*20, scale*100);
+    
+    vertex(scale*65, scale*10, scale*140);
+    vertex(scale*65, scale*20, scale*140);
+    vertex(scale*140, scale*10, scale*160);////
+    
+    vertex(scale*65, scale*20, scale*140);
+    vertex(scale*125, scale*20, scale*140);
+    vertex(scale*140, scale*10, scale*160);//new point;
+    
+    vertex(scale*125, scale*20, scale*140);
+    vertex(scale*125, scale*10, scale*140);
+    vertex(scale*140, scale*10, scale*160);//new point;
+    
+    vertex(scale*125, scale*10, scale*140);
+    vertex(scale*65, scale*10, scale*140);
+    vertex(scale*140, scale*10, scale*160);//new point;
+    endShape();
+    
+    //LEFT WING
+    beginShape(QUAD);
+    //fill(255);
+    vertex(scale*-40, scale*0, scale*100);
+    vertex(scale*-40, scale*20, scale*100);
+    vertex(scale*-65, scale*20, scale*140);
+    vertex(scale*-65, scale*10, scale*140);
+    
+    vertex(scale*-40, scale*0, scale*100);
+    vertex(scale*-100, scale*0, scale*100);
+    vertex(scale*-125, scale*10, scale*140);
+    vertex(scale*-65, scale*10, scale*140);
+    
+    vertex(scale*-40, scale*20, scale*100);
+    vertex(scale*-100, scale*20, scale*100);
+    vertex(scale*-125, scale*20, scale*140);
+    vertex(scale*-65, scale*20, scale*140);
+    endShape();
+    
+    beginShape(TRIANGLES);
+    vertex(scale*-40, scale*0, scale*25);
+    vertex(scale*-40, scale*0, scale*100);
+    vertex(scale*-100, scale*0, scale*100);
+    
+    vertex(scale*-40, scale*20, scale*25);
+    vertex(scale*-40, scale*20, scale*100);
+    vertex(scale*-100, scale*20, scale*100);
+    
+    vertex(scale*-65, scale*10, scale*140);
+    vertex(scale*-65, scale*20, scale*140);
+    vertex(scale*-140, scale*10, scale*160);//// NEW POINT
+    
+    vertex(scale*-65, scale*20, scale*140);
+    vertex(scale*-125, scale*20, scale*140);
+    vertex(scale*-140, scale*10, scale*160);//new point;
+    
+    vertex(scale*-125, scale*20, scale*140);
+    vertex(scale*-125, scale*10, scale*140);
+    vertex(scale*-140, scale*10, scale*160);//new point;
+    
+    vertex(scale*-125, scale*10, scale*140);
+    vertex(scale*-65, scale*10, scale*140);
+    vertex(scale*-140, scale*10, scale*160);//new point;
+    endShape();
+    popMatrix();
+    
+    
+    /*       //FIRE??
+    if(r>18)
+      r=10;
+    if(d>15)
+      d=7
     pushMatrix();
-    fill(200);
-    translate(80*scaling, 0, 0);
-    box(60*scaling, 5*scaling, 100*scaling);
+    rotate(radians(theta+=5));
+    noStroke();
+    beginShape(QUAD);
+    fill(255, 50, 50); //RED
+    vertex(scale*r++, 0, scale*102);
+    vertex(0, scale*d++, scale*102);
+    vertex(scale*-r, 0, scale*102);
+    vertex(0, scale*-d, scale*102);
+    endShape();
     popMatrix();
-   
+    
+    if(u>14)
+      u=5;
+    if(l>13)
+      l=4; 
     pushMatrix();
-    translate(-80*scaling, 0, 0);
-    box(60*scaling, 5*scaling, 100*scaling);
+    rotate(radians(-theta));
+    beginShape(QUAD);
+    noStroke();
+    fill(255, 250, 250); //WHITE
+    vertex(scale*l++, 0, scale*103);
+    vertex(0, scale*u++, scale*103);
+    vertex(scale*-l, 0, scale*103);
+    vertex(0, scale*-u, scale*103);
+    endShape();
     popMatrix();
+    */
+    stroke(0);
     
-    popMatrix();
     
-    //println("width: ",width, ", height: ", height);
-  } 
+    
+    
+    
+    
+    
+
+  }
 }
 
 
@@ -203,6 +408,28 @@ void keyPressed(){
     if(key=='b'){
       barrelRoll=true;
     }
+    if(key=='w'){
+      zup=true;
+    }
+    if(key=='s'){
+      zdown=true;
+    }
+    if(key=='j'){
+      Left=true;
+    }
+    if(key=='l'){
+      Right=true;
+    }
+    if(key=='i'){
+      Up=true;
+    }
+    if(key=='k'){
+      Down=true;
+    }
+    if(key=='t'){
+      test=true;
+    }
+
   
 }
 
@@ -222,4 +449,27 @@ void keyReleased(){
     if (keyCode == DOWN) {
       down=false;
     } 
+    if(key=='w'){
+      zup=false;
+    }
+    if(key=='s'){
+      zdown=false;
+    }
+    if(key=='j'){
+      Left=false;
+    }
+    if(key=='l'){
+      Right=false;
+    }
+    if(key=='i'){
+      Up=false;
+    }
+    if(key=='k'){
+      Down=false;
+    }
+    if(key=='t'){
+      test=false;
+    }
+    
 }
+ 

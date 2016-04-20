@@ -9,15 +9,17 @@ int hitbox = 20;
 int level = 1;
 private static final byte countdown = 5;
 private static int seconds, startTime;
+String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "deep-blue-space.jpg"};
+PImage background;
 
 void setup() {
-  size(1024,600,P3D);
-  background(255);
+  size(1440, 900, P3D);
   frameRate(50);
   meteors = new Meteors();
-  spaceship = new Spaceship(width/2, height/2);
+  spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
   
   startTime = millis()/1000 + countdown;
+  background = loadImage(backgrounds[0]);
 }
 
 void draw() {
@@ -40,7 +42,7 @@ void draw() {
       if (key == 'm') {
         meteors.newMeteor();
       }
-      
+      background(background);
       spaceship.drawSpaceship();
       
       meteors.drawMeteors();
@@ -86,7 +88,7 @@ void draw() {
 
 void meteorSpaceshipCollision() {
   for (Meteor meteor : meteors.meteors) {
-    if (meteor.z > 450-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) gameOver = true;
+    if (meteor.z > 650-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) gameOver = true;
   }
 }
 
@@ -98,4 +100,6 @@ void newLevel() {
   meteors.clearMeteors();
   spaceship.x = width/2;
   spaceship.y = height/2;
+  
+  background = loadImage(backgrounds[level%4]);
 }

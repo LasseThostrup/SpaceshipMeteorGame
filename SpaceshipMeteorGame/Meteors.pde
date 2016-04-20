@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Iterator;
 
 class Meteors {
-  float speed = 1; //Movement speed of meteors
+  float speed = 1.5; //Movement speed of meteors
   public ArrayList<Meteor> meteors;
   Random random;
   Boolean gameOver = false;
@@ -16,7 +16,7 @@ class Meteors {
     Boolean hasDeletedAMeteor = false;
     for (Iterator<Meteor> iterator = meteors.iterator(); iterator.hasNext();) {
       Meteor meteor = iterator.next();
-      if (meteor.z > 450) {
+      if (meteor.z > 680) {
           // Remove the meteor because it hit max z
           iterator.remove();
           hasDeletedAMeteor = true;
@@ -32,9 +32,9 @@ class Meteors {
   void newMeteor() {
     float x = random.nextFloat()*width/4+width/2-width/8;
     float y = random.nextFloat()*height/4+height/2-height/8;
-    float z = random.nextFloat()*150; //Values between 0 and 200
+    float z = random.nextFloat()*250; //Values between 0 and 250
     meteors.add(new Meteor(x, y, z));
-  } //<>//
+  } //<>// //<>//
   
   void clearMeteors() {
      meteors.clear();
