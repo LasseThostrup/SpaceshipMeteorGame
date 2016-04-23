@@ -13,6 +13,13 @@ boolean Down=false;
 boolean test=false;
 boolean barrelRoll=false;
 boolean key_pressed=false;
+boolean broken=false;       //x key
+float[] Xdirections = new float[4];
+float[] Ydirections = new float[4];
+float[] Xangles = new float[4];
+float[] Yangles = new float[4];
+float[] xRands = new float[4];
+float[] yRands = new float[4];
 
 
 class Spaceship { 
@@ -23,30 +30,14 @@ class Spaceship {
   float theta=0;
   float r=0, d=0;
   float l=0, u=0;
-  
+  float scale = .12;
  
-
-  
-  Spaceship(){
-    movementSpeed=8;
-    rotateSpeed=1;
-    x=width/2;
-    y=height/2;
-    z=100;
-  }
   Spaceship(float x1, float y1, float z1, float movementSpeed1, float rotateSpeed1){
     x=x1;
     y=y1;
     z=z1;
     movementSpeed=movementSpeed1;
     rotateSpeed=rotateSpeed1;
-  }
-  Spaceship(float x1, float y1){
-    x=x1;
-    y=y1;
-    z=100;
-    movementSpeed=10;
-    rotateSpeed=1;
   }
   
   float getX(){
@@ -56,12 +47,12 @@ class Spaceship {
     return y;
   }
 
-  void drawSpaceship() { 
+  void drawSpaceship(boolean broken) { 
     //println("x: ", x, " y: ", y, " moveSpeed: ", movementSpeed, " rotateSpeed: ", rotateSpeed);
      //DO A BARREL ROLL 
     if(up==true | down==true | right==true | left==true)
         key_pressed=true;
-  
+  if(!broken){
    if(key_pressed==true){ 
    if (left) { //LEFT
         if(x>610){
@@ -135,41 +126,37 @@ class Spaceship {
           barrelRoll=false;
         }
      }  
-        /*
-        if(zdown){
-          zAngle+=2;
-        }
-        if(zup){
-          zAngle-=2;
-        }
-        */
-        if(Right)
-          xAngle+=rotateSpeed;
-         if(Left)
-           xAngle-=rotateSpeed;
-         if(Up)
-           yAngle-=rotateSpeed;
-          if(Down)
-            yAngle+=rotateSpeed;
-       
+    drawShip(x, y, z, xAngle, yAngle, zAngle, scale);
+  }
+  else if(broken){
+    drawShip(x, y, z, xAngle, yAngle, zAngle, scale);
+    for(int i=0; i<4; i++){
+      Xdirections[i]+=xRands[i];
+      Ydirections[i]+=yRands[i];
+      Xangles[i]+=2*xRands[i];
+      Yangles[i]+=2*yRands[i];
+    }
     
-    
-    drawShip(x, y, z, xAngle, yAngle, zAngle);
+  }
 
   } 
    
-   void drawShip(float x, float y, float z, float xAngle, float yAngle, float zAngle){
+   void drawShip(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
+     fill(255);
+    drawNose(x+Xdirections[0], y+Ydirections[0], z, xAngle+Xangles[0], yAngle+Yangles[0], zAngle, scale);
+    drawBody(x+Xdirections[1], y+Ydirections[1], z, xAngle+Xangles[1], yAngle+Yangles[1], zAngle, scale);
+    drawLeftWing(x+Xdirections[2], y+Ydirections[2], z, xAngle+Xangles[2], yAngle+Yangles[2], zAngle, scale);
+    drawRightWing(x+Xdirections[3], y+Ydirections[3], z, xAngle+Xangles[3], yAngle+Yangles[3], zAngle, scale);
+  }
+}
+
+void drawNose(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
     pushMatrix();
     translate(x, y, z);
     rotateZ(radians(zAngle));
     rotateY(radians(xAngle));
     rotateX(radians(yAngle));
-  
-  
-    float scale=.12;
-    ////////////////////////////DRAWING THE SHIP\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-   fill(204);
-    //NOSE OF SHIP
+    
     beginShape(TRIANGLES);
     //fill(200, 200, 255);    //BLUE
     vertex(scale*-40, scale*-20, scale*00);
@@ -191,9 +178,16 @@ class Spaceship {
     vertex(scale*-40, scale*-20, scale*00);
     vertex(scale*0, scale*0, scale*-150);
     endShape(); 
-    
-    //BODY OF SHIP
-    beginShape(QUAD);
+    popMatrix();
+  }
+  
+void drawBody(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
+  pushMatrix();
+    translate(x, y, z);
+    rotateZ(radians(zAngle));
+    rotateY(radians(xAngle));
+    rotateX(radians(yAngle));
+  beginShape(QUAD);
     //fill(200, 200, 255);    //BLUE
     vertex(scale*(-40), scale*(-20), scale*00);
     vertex(scale*(40), scale*(-20), scale*00);
@@ -250,8 +244,17 @@ class Spaceship {
     vertex(scale*40, scale*-20, scale*100);
     vertex(scale*40, scale*20, scale*100);
     vertex(scale*-40, scale*20, scale*100);
-    endShape();
-    
+    endShape();   
+    popMatrix();
+}
+
+void drawRightWing(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
+    pushMatrix();
+    translate(x, y, z);
+    rotateZ(radians(zAngle));
+    rotateY(radians(xAngle));
+    rotateX(radians(yAngle)); 
+  
     //RIGHT WING
     beginShape(QUAD);
     //fill(255);
@@ -296,7 +299,15 @@ class Spaceship {
     vertex(scale*65, scale*10, scale*140);
     vertex(scale*140, scale*10, scale*160);//new point;
     endShape();
-    
+    popMatrix();
+}
+void drawLeftWing(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
+    pushMatrix();
+    translate(x, y, z);
+    rotateZ(radians(zAngle));
+    rotateY(radians(xAngle));
+    rotateX(radians(yAngle));  
+  
     //LEFT WING
     beginShape(QUAD);
     //fill(255);
@@ -342,53 +353,7 @@ class Spaceship {
     vertex(scale*-140, scale*10, scale*160);//new point;
     endShape();
     popMatrix();
-    
-    
-    /*       //FIRE??
-    if(r>18)
-      r=10;
-    if(d>15)
-      d=7
-    pushMatrix();
-    rotate(radians(theta+=5));
-    noStroke();
-    beginShape(QUAD);
-    fill(255, 50, 50); //RED
-    vertex(scale*r++, 0, scale*102);
-    vertex(0, scale*d++, scale*102);
-    vertex(scale*-r, 0, scale*102);
-    vertex(0, scale*-d, scale*102);
-    endShape();
-    popMatrix();
-    
-    if(u>14)
-      u=5;
-    if(l>13)
-      l=4; 
-    pushMatrix();
-    rotate(radians(-theta));
-    beginShape(QUAD);
-    noStroke();
-    fill(255, 250, 250); //WHITE
-    vertex(scale*l++, 0, scale*103);
-    vertex(0, scale*u++, scale*103);
-    vertex(scale*-l, 0, scale*103);
-    vertex(0, scale*-u, scale*103);
-    endShape();
-    popMatrix();
-    */
-    stroke(0);
-    
-    
-    
-    
-    
-    
-    
-
-  }
 }
-
 
 
 void keyPressed(){
@@ -428,6 +393,13 @@ void keyPressed(){
     }
     if(key=='t'){
       test=true;
+    }
+    if(key=='x'){
+      broken=true;
+      for(int i=0; i<4; i++){
+          xRands[i]=random(-2, 2);
+          yRands[i]=random(-2, 2);
+        }
     }
 
   

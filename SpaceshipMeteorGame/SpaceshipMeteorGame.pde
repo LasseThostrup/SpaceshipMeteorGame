@@ -13,8 +13,8 @@ String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "dee
 PImage background;
 
 void setup() {
-  //size(1440, 900, P3D);
-  fullScreen(P3D);
+  size(1440, 900, P3D);
+  //fullScreen(P3D);
   frameRate(100);
   meteors = new Meteors();
   spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
@@ -44,7 +44,7 @@ void draw() {
         meteors.newMeteor();
       }
       background(background);
-      spaceship.drawSpaceship();
+      spaceship.drawSpaceship(broken);
       
       meteors.drawMeteors();
       
