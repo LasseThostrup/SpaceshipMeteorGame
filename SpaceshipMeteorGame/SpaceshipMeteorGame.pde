@@ -11,6 +11,7 @@ private static final byte countdown = 5;
 private static int seconds, startTime;
 String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "deep-blue-space.jpg"};
 PImage background;
+int brokenCounter = 0; //When a spaceship hits a meteor the broken bool is set to true, but we want to only have the animation for a few seconds, and then the GAME OVER text appear.
 
 void setup() {
   size(1440, 900, P3D);
@@ -30,26 +31,34 @@ void draw() {
     textSize(64);
     fill(255, 0, 0);
     text("GAME OVER", 10, 30);
+    translate(-50, 150);
+    text("New game? y/n", 10, 30);
     
-    //Insert text menu to start new game
+    if (key == 'Y' || key == 'y'){
+      gameOver = false;
+      startTime = millis()/1000 + countdown;
+      levelActive = false;
+      brokenCounter = 0;
+      broken = false;
+    }
+    else if (key == 'N' || key == 'n')
+      System.exit(0);
   }
   else {
     
     if (levelActive) {
+      if (broken) brokenCounter++;
+      if (brokenCounter > 100) gameOver = true;      
+      
       //Current level is active
       meteorSpaceshipCollision();
       clear();
       
-      if (key == 'm') {
-        meteors.newMeteor();
-      }
       background(background);
-      spaceship.drawSpaceship();
+      spaceship.drawSpaceship(broken);
       
       meteors.drawMeteors();
       
-      //Insert some detection when level is done
-        //Increment level variable
       seconds = startTime - millis()/1000;
       
       if (seconds < 0) {
@@ -90,8 +99,7 @@ void draw() {
 void meteorSpaceshipCollision() {
   for (Meteor meteor : meteors.meteors) {
     if (meteor.z > 650-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) {
-        gameOver = true;
-        //Scatter the spaceship and scatter the meteor
+        broken = true;
     }
   }
 }
