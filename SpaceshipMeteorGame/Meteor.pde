@@ -42,6 +42,10 @@ class Meteor {
     popMatrix();
   }
   
+  void scatterMeteor() {
+    
+  }
+  
     
   void initializeSphere(int numPtsW, int numPtsH_2pi) {
   

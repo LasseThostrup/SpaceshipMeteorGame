@@ -13,9 +13,9 @@ String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "dee
 PImage background;
 
 void setup() {
-  //size(1440, 900, P3D);
-  fullScreen(P3D);
-  frameRate(100);
+  size(1440, 900, P3D);
+  //fullScreen(P3D);
+  frameRate(50);
   meteors = new Meteors();
   spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
   
@@ -89,7 +89,10 @@ void draw() {
 
 void meteorSpaceshipCollision() {
   for (Meteor meteor : meteors.meteors) {
-    if (meteor.z > 650-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) gameOver = true;
+    if (meteor.z > 650-hitbox && abs(meteor.x-spaceship.x) < hitbox && abs(meteor.y-spaceship.y) < hitbox) {
+        gameOver = true;
+        //Scatter the spaceship and scatter the meteor
+    }
   }
 }
 

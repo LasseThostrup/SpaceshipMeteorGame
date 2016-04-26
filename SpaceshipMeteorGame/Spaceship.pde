@@ -56,6 +56,10 @@ class Spaceship {
     return y;
   }
 
+  void scatterSpaceship() {
+     
+  }
+
   void drawSpaceship() { 
     //println("x: ", x, " y: ", y, " moveSpeed: ", movementSpeed, " rotateSpeed: ", rotateSpeed);
      //DO A BARREL ROLL 
