@@ -44,7 +44,7 @@ void draw() {
       spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
     }
     else if (key == 'N' || key == 'n')
-      System.exit(0);
+      exit();
   }
   else {
     
@@ -64,7 +64,8 @@ void draw() {
       seconds = startTime - millis()/1000;
       
       if (seconds < 0) {
-        newLevel();
+        if (!broken)
+          newLevel();
       }
       else {
         pushMatrix();
