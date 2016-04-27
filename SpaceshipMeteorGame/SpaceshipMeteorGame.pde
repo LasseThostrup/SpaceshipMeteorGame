@@ -12,7 +12,6 @@ private static int seconds, startTime;
 String[] backgrounds = {"Planet-ring-asteroids.jpg", "Earth-view copy.jpg", "deep-blue-space.jpg"};
 PImage background;
 int brokenCounter = 0; //When a spaceship hits a meteor the broken bool is set to true, but we want to only have the animation for a few seconds, and then the GAME OVER text appear.
-
 void setup() {
   size(1440, 900, P3D);
   //fullScreen(P3D);
@@ -40,6 +39,9 @@ void draw() {
       levelActive = false;
       brokenCounter = 0;
       broken = false;
+      meteors.clearMeteors();
+      level = 1;
+      spaceship = new Spaceship(width/2, height/2, 650, 5, 1);
     }
     else if (key == 'N' || key == 'n')
       System.exit(0);
