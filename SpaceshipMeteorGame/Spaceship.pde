@@ -65,50 +65,50 @@ class Spaceship {
         if(x>610){
           x -= movementSpeed;
           if(xAngle<26)
-            xAngle+=6;
+            xAngle+=4;
         }
       }
       else if(left==false){
           if(xAngle>0)
-            xAngle-=3;
+            xAngle-=2;
       }
       
       if (right) {  //RIGHT
         if(x<width-610){
             x += movementSpeed;
              if(xAngle>-26)
-                xAngle-=6;
+                xAngle-=4;
           }
       }
        else if(right==false){
            if(xAngle<0)
-             xAngle+=3;
+             xAngle+=2;
        }
        
        if (up) {  //UP
          if(y>380){
             y -= movementSpeed;
             if(yAngle>-20)
-              yAngle-=6;
+              yAngle-=4;
             
           }
         }
         else if(!up){
            if(yAngle<0)
-              yAngle+=3;
+              yAngle+=2;
         }
         
        if (down) {  //DOWN
          if(y<height-380){
             y += movementSpeed;
             if(yAngle<20)
-              yAngle+=6;
+              yAngle+=4;
            
           }
         }
         else if(!down){
           if(yAngle>0)
-            yAngle-=3;
+            yAngle-=2;
         }  
     }
     else{
@@ -149,9 +149,10 @@ class Spaceship {
   } 
    
    void drawShip(float x, float y, float z, float xAngle, float yAngle, float zAngle, float scale){
-     fill(255);
+     fill(135, 50, 50);
     drawNose(x+Xdirections[0], y+Ydirections[0], z, xAngle+Xangles[0], yAngle+Yangles[0], zAngle, scale);
     drawBody(x+Xdirections[1], y+Ydirections[1], z, xAngle+Xangles[1], yAngle+Yangles[1], zAngle, scale);
+    fill(255, 50, 50);
     drawLeftWing(x+Xdirections[2], y+Ydirections[2], z, xAngle+Xangles[2], yAngle+Yangles[2], zAngle, scale);
     drawRightWing(x+Xdirections[3], y+Ydirections[3], z, xAngle+Xangles[3], yAngle+Yangles[3], zAngle, scale);
   }
@@ -162,6 +163,14 @@ class Spaceship {
       rotateZ(radians(zAngle));
       rotateY(radians(xAngle));
       rotateX(radians(yAngle));
+      
+      
+      beginShape(QUAD);
+      vertex(scale*-40, scale*-20, scale*0);
+      vertex(scale*40, scale*-20, scale*0);
+      vertex(scale*40, scale*20, scale*0);
+      vertex(scale*-40, scale*20, scale*0);
+      endShape();
       
       beginShape(TRIANGLES);
       //fill(200, 200, 255);    //BLUE
@@ -194,11 +203,18 @@ class Spaceship {
       rotateY(radians(xAngle));
       rotateX(radians(yAngle));
     beginShape(QUAD);
-      //fill(200, 200, 255);    //BLUE
+      //Front of ship
+      vertex(scale*-40, scale*-20, scale*0);
+      vertex(scale*40, scale*-20, scale*0);
+      vertex(scale*40, scale*20, scale*0);
+      vertex(scale*-40, scale*20, scale*0);
+    
+      fill(0);    //BLUE
       vertex(scale*(-40), scale*(-20), scale*00);
       vertex(scale*(40), scale*(-20), scale*00);
       vertex(scale*(40), scale*(-20), scale*100);
       vertex(scale*(-40), scale*(-20), scale*100);
+      fill(135, 50, 50);
       
       //fill(255, 200, 200);    //PINK
       vertex(scale*40, scale*-20, scale*00);
@@ -228,7 +244,7 @@ class Spaceship {
       vertex(scale*25, scale*-50, scale*100);
       vertex(scale*-25, scale*-50, scale*100);
       
-      //fill(150, 150);
+      fill(150, 150);
       vertex(scale*25, scale*-50, scale*100);
       vertex(scale*-25, scale*-50, scale*100);
       vertex(scale*-20, scale*-20, scale*0);
@@ -245,7 +261,7 @@ class Spaceship {
       vertex(scale*-20, scale*-20, scale*0);
       
       //BACK OF SHIP
-      //fill(150);
+      fill(135, 50, 50);
       vertex(scale*-40, scale*-20, scale*100);
       vertex(scale*40, scale*-20, scale*100);
       vertex(scale*40, scale*20, scale*100);
@@ -278,6 +294,22 @@ class Spaceship {
       vertex(scale*100, scale*20, scale*100);
       vertex(scale*125, scale*20, scale*140);
       vertex(scale*65, scale*20, scale*140);
+      
+      //Outside of right wing
+      vertex(scale*+100, scale*0, scale*100);
+      vertex(scale*+100, scale*20, scale*100);
+      vertex(scale*+125, scale*20, scale*140);
+      vertex(scale*+125, scale*10, scale*140);
+ 
+      vertex(scale*+40, scale*0, scale*25);
+      vertex(scale*+100, scale*0, scale*100);
+      vertex(scale*+100, scale*20, scale*100);
+      vertex(scale*+40, scale*20, scale*25);
+   
+      vertex(scale*+40, scale*0, scale*25);
+      vertex(scale*+40, scale*0, scale*100);
+      vertex(scale*+40, scale*20, scale*100);
+      vertex(scale*+40, scale*20, scale*25);
       endShape();
       
       beginShape(TRIANGLES);
@@ -331,6 +363,22 @@ class Spaceship {
       vertex(scale*-100, scale*20, scale*100);
       vertex(scale*-125, scale*20, scale*140);
       vertex(scale*-65, scale*20, scale*140);
+      
+      //Outside of left wing
+      vertex(scale*-100, scale*0, scale*100);
+      vertex(scale*-100, scale*20, scale*100);
+      vertex(scale*-125, scale*20, scale*140);
+      vertex(scale*-125, scale*10, scale*140);
+ 
+      vertex(scale*-40, scale*0, scale*25);
+      vertex(scale*-100, scale*0, scale*100);
+      vertex(scale*-100, scale*20, scale*100);
+      vertex(scale*-40, scale*20, scale*25);
+   
+      vertex(scale*-40, scale*0, scale*25);
+      vertex(scale*-40, scale*0, scale*100);
+      vertex(scale*-40, scale*20, scale*100);
+      vertex(scale*-40, scale*20, scale*25);
       endShape();
       
       beginShape(TRIANGLES);
